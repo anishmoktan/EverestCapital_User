@@ -45,7 +45,7 @@ class Users:
         else:
             return {"Result":False,
                     "Error": "Database error"
-                    "Description": "Could not verify if username and email already exists in the datase"
+                    "Description" : "Could not verify if username and email already exists in the datase"
             }
 
 
