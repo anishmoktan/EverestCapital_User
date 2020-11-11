@@ -87,7 +87,9 @@ class Users:
         
         if len(response["Items"]) > 0:
             original_password = response["Items"][0]["password"]
-            if de_hash_password(original_password) == password:
+
+            self.de_hash(password.encode("utf-8"), hased)
+            if self.de_hash_password(original_password.encode) == password:
                 return {"Result": True,
                         "Error": None,
                         "Description": "Password was verified"}
@@ -171,7 +173,7 @@ class Users:
                 "Description": "User password was not updated. No such user exists."
             }
 
-        def delete_account(self, username):
+    def delete_account(self, username):
         response = self.table.scan(FilterExpression = Attr("username").eq(username))
 
         if len(response["Items"]) > 0:
@@ -183,15 +185,77 @@ class Users:
                 }
         else:
             return {
-                 "Result": False,
-                 "Error": "Account does not exist in database"
+                    "Result": False,
+                    "Error": "Account does not exist in database"
                 }
 
-        def hash_password(self, password):
+
+    def hash_pw(self, password):
         hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+        """
+        above hased is a byte stream; below we decode back into a striing and save pw as string
+        """
+
+        return hashed.decode("utf-8")
+
+    def de_hash(self, password, hashed):
+        if bcrypt.checkpw(password, hashed):
+            return True
+        else:
+            return False
+
+    def hash_password(self, password):
+        hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+        return hashed.decode("utf-8")
+
+    def de_hash_password(self, password, hashed):
+        if bcrypt.checkpw(password, hashed):
+            return True
+        else:
+            return False
     
-        def de_hash_password(self, password, hashed):
-            if bcrypt.checkpw(password, hashed):
-                return True
+    def authincate_user(self, user, password):
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+
+        ## check if list is emtpy
+        if (len(response["Items"]) > 0):
+            # we have find the user
+            # perform verification
+            hased = response['Items'][0]["password"].encode("utf-8")
+
+            self.de_hash(password.encode("utf-8"), hased)
+
+            verification = self.de_hash(password.encode("utf-8"), hased)
+
+            if (verification):
+                # print("it matches")
+                return {
+                    "Result": True,
+                    "Error": None,
+                    "City": response['Items'][0]["currentcity"],
+                    "Country": response['Items'][0]["currentcountry"],
+                    "FirstName": response['Items'][0]["firstname"],
+                    "LastName": response['Items'][0]["lastname"],
+                    "Email": response['Items'][0]["email"],
+                    "Username": response['Items'][0]["username"]
+                }
             else:
-                return False
+                # print("password inncorrect")
+                return {
+                    "Result": False,
+                    "Error": "Password incorrect",
+                    "City": None,
+                    "Country": None
+                }
+
+        else:
+            # that means cant find anythign
+            # print("no such user")
+            return {
+                "Result": False,
+                "Error": "Username not found",
+                "City": None,
+                "Country": None
+            }
