@@ -64,8 +64,8 @@ class Users:
         else:
             return False #False if they don't
 
-    def authincate_user(self, user, password): #Used for logging in the website
-        response = self.table.scan(FilterExpression=Attr("username").eq(user)) #scans DynamoDB for the username and sets it as reponse if found
+    def authincate_user(self, username, password): #Used for logging in the website
+        response = self.table.scan(FilterExpression=Attr("username").eq(username)) #scans DynamoDB for the username and sets it as reponse if found
 
         if (len(response["Items"]) > 0): #If found
             hased = response['Items'][0]["password"].encode("utf-8") #Encodes the password in the DB
