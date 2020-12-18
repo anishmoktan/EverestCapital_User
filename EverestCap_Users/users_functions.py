@@ -183,39 +183,39 @@ class Users:
     #                     "Error": "Password error",
     #                     "Description": "Password was not verified"}
 
-    def update_password(self, username, password): #Updates the DB by first getting back the response
-        response = self.table.scan(FilterExpression=Attr("username").eq(username)) #Sets response at the index for the username
+    # def update_password(self, username, password): #Updates the DB by first getting back the response
+    #     response = self.table.scan(FilterExpression=Attr("username").eq(username)) #Sets response at the index for the username
 
-        if len(response["Items"]) > 0: 
+    #     if len(response["Items"]) > 0: 
 
-            firstname = response["Items"][0]["firstname"]
-            lastname = response["Items"][0]["lastname"]
-            email = response["Items"][0]['email']
-            city = response["Items"][0]["city"]
-            country = response["Items"][0]["country"]
+    #         firstname = response["Items"][0]["firstname"]
+    #         lastname = response["Items"][0]["lastname"]
+    #         email = response["Items"][0]['email']
+    #         city = response["Items"][0]["city"]
+    #         country = response["Items"][0]["country"]
           
-            response = self.table.put_item(
-                Item = {
-                        self.Primary_Column_Name: username,
-                        self.columns[0]: firstname,
-                        self.columns[1]: lastname,
-                        self.columns[2]: email,
-                        self.columns[3]: city,
-                        self.columns[4]: country,
-                        self.columns[5]: self.hash_password(password)
-                    }
-                 )
-            return{
-                "Result": True,
-                "Error": None,
-                "Description": "User password updated"
-            }
-        else:
-            return{
-                "Result": False,
-                "Error": "DB Error",
-                "Description": "User password was not updated. No such user exists."
-            }
+    #         response = self.table.put_item(
+    #             Item = {
+    #                     self.Primary_Column_Name: username,
+    #                     self.columns[0]: firstname,
+    #                     self.columns[1]: lastname,
+    #                     self.columns[2]: email,
+    #                     self.columns[3]: city,
+    #                     self.columns[4]: country,
+    #                     self.columns[5]: self.hash_password(password)
+    #                 }
+    #              )
+    #         return{
+    #             "Result": True,
+    #             "Error": None,
+    #             "Description": "User password updated"
+    #         }
+    #     else:
+    #         return{
+    #             "Result": False,
+    #             "Error": "DB Error",
+    #             "Description": "User password was not updated. No such user exists."
+    #         }
 
     # def update_username(self, username, password):
     #     response = self.table.scan(

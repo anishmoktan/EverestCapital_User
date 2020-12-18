@@ -33,19 +33,17 @@ def login():
     res = request.json
     username = res["Username"]
     password = res["Password"]
-    r = user.authincate_user(user=username, password=password)
+    login = user.authincate_user(username=username, password=password)
     # return dict{}
-    return r
+    return login #returns what is written in the class
 
 
 @app.route("/delete", methods=['POST'])
 def delete():
     res = request.json
     username = res["Username"]
-    deleted = user.delete_user(user=username)
+    deleted = user.delete_account(username=username)
     return deleted
-
-
 
 # @app.route("/update-pw", methods=['POST'])
 # def updated_pw():
@@ -56,19 +54,19 @@ def delete():
 #     return updated
 
 
-@app.route("/update-user-info", methods=["POST"])
+@app.route("/update-user-info", methods=["POST"]) #updates everything in an account
 def update_info():
     res = request.json
     username = res["Username"]
     firstname = res["FirstName"]
     lastname = res["LastName"]
-    currentcity = res["City"]
-    currentcountry = res["Country"]
-    password = res['Password']
     email = res['Email']
-    updated_user = user.update_user(user=username, currentcity=currentcity, currentcountry=currentcountry, firstname=firstname, lastname=lastname, password=password, email=email)
-    return updated_user
+    city = res["City"]
+    country = res["Country"]
+    password = res['Password']
 
+    updated_user = user.update_user(username=username, firstname=firstname, lastname=lastname, email=email, city=city, country=country, password=password)
+    return updated_user
 
 
 if __name__ == "__main__":
