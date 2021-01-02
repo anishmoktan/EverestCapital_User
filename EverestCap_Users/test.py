@@ -23,7 +23,7 @@ class BasicTestCase(unittest.TestCase):
             "FirstName":"Quality",
             "LastName":"Assurance",
             "Country":"USA",
-            "City":"New York City"
+            "City":"New York"
         }
 
         rv = self.app.post('/register', json=req)
@@ -73,8 +73,6 @@ class BasicTestCase(unittest.TestCase):
     #     tester = app.test_client(self)
     #     response = tester.get('/', content_type='html/text')
     #     self.assertEqual(response.status_code, 302)
-
-    
     
     
 if __name__ == '__main__':
