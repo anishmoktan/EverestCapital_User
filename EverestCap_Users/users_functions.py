@@ -161,7 +161,6 @@ class Users:
                 "Error": "DB error",
                 "Description": "User info was not updated"
             }
-    
 
     # def password_verification(self,username,password):
     #     response = self.table.scan(FilterExpression=Attr("Username").eq(username))
