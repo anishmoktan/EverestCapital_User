@@ -1,6 +1,6 @@
-import boto3 #to connect our information to AWS DynamoDB
+import boto3  #to connect our information to AWS DynamoDB
 from boto3.dynamodb.conditions import Attr
-import bcrypt #library for cryting password
+import bcrypt  #library for cryting password
 
 
 class Users:
@@ -10,7 +10,7 @@ class Users:
         self.DB = boto3.resource('dynamodb')
         self.Primary_Column_Name = "Username"
         # self.Primary_key = 1
-        self.columns = ["Firstname", "Lastname", "Email", "Password", "City","Country"]   # providing values for the colmuns
+        self.columns = ["Firstname", "Lastname", "Email", "Password", "City","Country"]   #providing values for the colmuns
         self.table = self.DB.Table(self.__Tablename__)
     
     def put(self, username, firstname, lastname,  email, city, country, password): #Uploads to DB right away
@@ -53,9 +53,9 @@ class Users:
     
     def hash_password(self, password):
         hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()) #Takes in the password and encodes
-        #"""
+    
         #above hased is a byte stream; below we decode back into a striing and save pw as string
-        #"""
+  
         return hashed.decode("utf-8") #Returns the hashed password
 
     def de_hash_password(self, password, hashed): #Takes in password entered and hashed passowrd from the DB
@@ -161,6 +161,7 @@ class Users:
                 "Error": "DB error",
                 "Description": "User info was not updated"
             }
+
 
     # def password_verification(self,username,password):
     #     response = self.table.scan(FilterExpression=Attr("Username").eq(username))
