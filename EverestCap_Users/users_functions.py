@@ -53,9 +53,7 @@ class Users:
     
     def hash_password(self, password):
         hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()) #Takes in the password and encodes
-    
         #above hased is a byte stream; below we decode back into a striing and save pw as string
-  
         return hashed.decode("utf-8") #Returns the hashed password
 
     def de_hash_password(self, password, hashed): #Takes in password entered and hashed passowrd from the DB
