@@ -2,7 +2,7 @@ import os
 import unittest
 import json
 from datetime import date, datetime
-from devbops_user_microservice import app
+from EverestCap_Users import app
 
 class BasicTestCase(unittest.TestCase):
 
