@@ -45,14 +45,6 @@ def delete():
     deleted = user.delete_account(username=username)
     return deleted
 
-# @app.route("/update-pw", methods=['POST'])
-# def updated_pw():
-#     res = request.json
-#     username = res["Username"]
-#     password = res["Password"]
-#     updated = user.update_user_pw(user=username,password=password)
-#     return updated
-
 
 @app.route("/update-user-info", methods=["POST"]) #updates everything in an account
 def update_info():
